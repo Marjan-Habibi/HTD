@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>روز معلم مبارک 💐</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap');
+
+:root{
+  --bg:#f7f9fc;
+  --card:#fff;
+  --accent:#0066ff;
+  --muted:#556;
+  --glass: rgba(255,255,255,0.75);
+}
+
+/* پایه */
+*{box-sizing:border-box}
+html,body{height:100%;}
+body{
+  font-family:'Vazirmatn',sans-serif;
+  margin:0;
+  padding:0;
+  background:linear-gradient(180deg,var(--bg),#eef7ff);
+  color:#222;
+  text-align:center;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+}
+
+/* خلفیه نرم */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background: radial-gradient(circle at 10% 10%, rgba(0,102,255,0.06), transparent 15%),
+              radial-gradient(circle at 90% 80%, rgba(0,200,255,0.05), transparent 18%);
+  z-index:-2;
+  pointer-events:none;
+}
+
+/* هدر انیمیشنی */
+.header-wrap{
+  padding:2.2rem 1rem 0.6rem;
+  position:relative;
+  z-index:3;
+}
+h1{
+  margin:0;
+  font-size:2.4rem;
+  color:var(--accent);
+  letter-spacing:1px;
+  transform-origin:center;
+  animation: headlinePop 1100ms cubic-bezier(.2,.9,.3,1) 1;
+  display:inline-block;
+  background: linear-gradient(90deg,#0047b3,#00a7d9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@keyframes headlinePop{
+  0%{transform:translateY(-18px) scale(.98); opacity:0}
+  60%{transform:translateY(6px) scale(1.02); opacity:1}
+  100%{transform:translateY(0) scale(1)}
+}
+.header-sub{
+  margin-top:.6rem;
+  color:var(--muted);
+  font-size:1rem;
+  opacity:0;
+  animation: subFade 1200ms ease 300ms forwards;
+}
+@keyframes subFade{
+  to{opacity:1; transform:none}
+}
+
+/* گالری کارت‌ها */
+.container{
+  max-width:1100px;
+  margin:1.2rem auto 3.5rem;
+  padding:0 1rem;
+  z-index:3;
+  position:relative;
+}
+.teachers{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.25rem;
+}
+
+/* کارت انیمیشن ورودی */
+.card{
+  background:var(--card);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 12px 30px rgba(25,40,70,0.06);
+  transform:translateY(18px) scale(.995);
+  opacity:0;
+  transition:transform 300ms ease, box-shadow 200ms ease;
+  will-change:transform,opacity;
+  padding-bottom:.6rem;
+  border:1px solid rgba(20,40,80,0.03);
+}
+.card img{
+  width:100%;
+  height:230px;
+  object-fit:cover;
+  display:block;
+}
+.card h3{
+  margin:.8rem 0 0;
+  font-size:1rem;
+  color:var(--accent);
+  font-weight:600;
+}
+
+/* کلاس برای اجرای انیمیشن ورودی (JS آن را اضافه می‌کند) */
+.card.show{
+  animation: cardIn 700ms cubic-bezier(.22,.98,.3,1) forwards;
+  opacity:1;
+  transform:none;
+}
+@keyframes cardIn{
+  0%{transform:translateY(24px) scale(.995); opacity:0}
+  60%{transform:translateY(-6px) scale(1.01); opacity:1}
+  100%{transform:translateY(0) scale(1)}
+}
+.card:hover{
+  transform:translateY(-10px) scale(1.02);
+  box-shadow:0 20px 40px rgba(25,40,70,0.12);
+}
+
+/* پلیر */
+.player-toggle{
+  position:fixed;
+  left:14px;
+  bottom:14px;
+  z-index:7;
+  background:var(--glass);
+  border-radius:10px;
+  padding:8px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  backdrop-filter: blur(6px);
+}
+.player-toggle button{
+  border:0;
+  background:var(--accent);
+  color:#fff;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+}
+.player-toggle .mute{
+  background:transparent;
+  color:var(--accent);
+  padding:6px 8px;
+  border-radius:8px;
+  border:1px solid rgba(0,102,255,0.12);
+}
+
+/* ====== PETAQ / burst effect (یک بار اجرا می‌شود) ====== */
+.burst-wrap{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  z-index:6; /* بالاتر از محتوا برای دیده شدن */
+}
+
+/* نور مرکزی که پخش می‌شود */
+.burst-glow{
+  position:absolute;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.95), rgba(255,220,180,0.5));
+  transform:scale(0);
+  opacity:0.95;
+  filter: blur(8px);
+  animation: glowPop 700ms ease-out forwards;
+}
+@keyframes glowPop{
+  0%{transform:scale(0); opacity:1;}
+  60%{transform:scale(8); opacity:0.9;}
+  100%{transform:scale(22); opacity:0;}
+}
+
+/* ذرات شعاعیِ پتاق */
+.burst-particle{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:3px;
+  background:var(--accent);
+  top:50%;
+  left:50%;
+  transform-origin:center;
+  opacity:0.95;
+  animation: particleFly 900ms cubic-bezier(.2,.9,.2,1) forwards;
+}
+@keyframes particleFly{
+  0%{transform:translate(-50%,-50%) scale(1); opacity:1;}
+  100%{transform:translate(var(--tx), var(--ty)) scale(0.85); opacity:0;}
+}
+
+/* ====== CONFETTI (ادامه‌دارتر) ====== */
+.confetti-wrap{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:6;
+  overflow:hidden;
+}
+
+/* هر کنفتی قالب مستطیل رنگی اعتبار دارد */
+.confetti{
+  position:absolute;
+  width:10px;
+  height:16px;
+  opacity:0.95;
+  transform-origin:center;
+  will-change: transform, opacity;
+  animation: confettiFall linear infinite;
+  border-radius:2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+@keyframes confettiFall{
+  0%{
+    transform: translateY(-10vh) rotate(0deg) translateX(0);
+    opacity:1;
+  }
+  100%{
+    transform: translateY(110vh) rotate(720deg) translateX(var(--drift));
+    opacity:0.02;
+  }
+}
+
+/* واکنش‌پذیری */
+@media (max-width:700px){
+  h1{font-size:1.6rem}
+  .card img{height:190px}
+  .player-toggle{left:8px; bottom:10px}
+}
+</style>
+</head>
+<body>
+
+<header class="header-wrap">
+  <h1>🌸 روز معلم مبارک 🌸</h1>
+  <p class="header-sub">با سپاس از آموزگارانی که روشنایی را به دل‌هایمان بخشیدند.</p>
+</header>
+
+<main class="container">
+  <section class="teachers" aria-label="اساتید">
+    <div class="card">
+      <img src="مصطفی.jpeg" alt="مصطفی حبیبی — استاد">
+      <h3>مصطفی حبیبی</h3>
+    </div>
+    <div class="card">
+      <img src="مبشر.jpeg" alt="مبشر استانکزی — استاد">
+      <h3>مبشر استانکزی</h3>
+    </div>
+    <div class="card">
+      <img src="مدثر.jpeg" alt="مدثر حبیبی — استاد">
+      <h3>مدثر حبیبی</h3>
+    </div>
+    <div class="card">
+      <img src="آرش.jpeg" alt="آرش — استاد">
+      <h3>آرش</h3>
+    </div>
+    <div class="card">
+      <img src="رحیمه.jpeg" alt="الهه رحیمی — استاد">
+      <h3>الهه رحیمی</h3>
+    </div>
+    <div class="card">
+      <img src="دنیا یوسفی.jpeg" alt="دنیا یوسفی — استاد">
+      <h3>دنیا یوسفی</h3>
+    </div>
+  </section>
+</main>
+
+<!-- پخش موسیقی -->
+<audio id="bg-audio" loop preload="auto" src="happy.mp3"></audio>
+
+<!-- دکمه کنترل موسیقی (نمایان در صورت نیاز) -->
+<div class="player-toggle" id="playerToggle" aria-hidden="true" style="display:none;">
+  <button id="playBtn">پخش موسیقی</button>
+  <button id="muteBtn" class="mute"><a href="https://marjan-habibi.github.io/marjanhabibi_portfolio-/">بی‌صدا</a>
+    </button>
+</div>
+
+<!-- محفظه‌های افکت -->
+<div class="burst-wrap" id="burstWrap" aria-hidden="true"></div>
+<div class="confetti-wrap" id="confettiWrap" aria-hidden="true"></div>
+
+<script>
+/* ==== تنظیمات: می‌توانی اینجا تعداد و شدت را تغییر دهی ==== */
+const CONFETTI_COUNT = 80;         // تعداد تکه‌های کنفتی
+const CONFETTI_COLORS = ['#ff3b30','#ff9500','#ffcc00','#34c759','#0a84ff','#af52de','#ff2d55'];
+const BURST_PARTICLES = 22;        // ذرات شعاعی پتاق
+const BURST_COLORS = ['#ffd366','#fff6e6','#fff','#ffd6f0','#cfe9ff'];
+
+/* ====== فانکشن‌های کمکی ====== */
+function rand(min,max){ return Math.random()*(max-min)+min; }
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+/* ====== پتاق (burst) — اجرا فقط یک بار در load ====== */
+function doBurst(){
+  const wrap = document.getElementById('burstWrap');
+  // نور مرکزی
+  const glow = document.createElement('div');
+  glow.className = 'burst-glow';
+  wrap.appendChild(glow);
+
+  // ذرات شعاعی
+  for(let i=0;i<BURST_PARTICLES;i++){
+    const p = document.createElement('div');
+    p.className = 'burst-particle';
+    const size = rand(6,14);
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.background = pick(BURST_COLORS);
+    // random angle and distance
+    const angle = rand(0, Math.PI*2);
+    const dist = rand(80, 220); // pixels
+    const tx = Math.cos(angle)*dist + 'px';
+    const ty = Math.sin(angle)*dist + 'px';
+    p.style.setProperty('--tx', tx);
+    p.style.setProperty('--ty', ty);
+    // slight delay staggering
+    p.style.animationDelay = (i * 8) + 'ms';
+    // rotate and shape variation
+    p.style.borderRadius = (Math.random()>0.6 ? '50%' : '3px');
+    wrap.appendChild(p);
+  }
+
+  // cleanup after animation ends (~1.2s)
+  setTimeout(()=> {
+    wrap.innerHTML = '';
+  }, 1300);
+}
+
+/* ====== کنفتی (confetti) - ادامه‌دار برای چند ثانیه ====== */
+function startConfetti(){
+  const wrap = document.getElementById('confettiWrap');
+  const W = window.innerWidth;
+  for(let i=0;i<CONFETTI_COUNT;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    const w = rand(7,14);
+    const h = rand(10,20);
+    c.style.width = w + 'px';
+    c.style.height = h + 'px';
+    c.style.left = (rand(0,100)) + 'vw';
+    c.style.top = (rand(-30, -5)) + 'vh';
+    c.style.background = pick(CONFETTI_COLORS);
+    // drift: horizontal drift amount
+    const drift = (Math.random()>0.5 ? 1 : -1) * rand(10, 80);
+    c.style.setProperty('--drift', drift + 'px');
+    // random duration and delay so pattern متفاوت باشه
+    const dur = rand(4.5, 10.5);
+    const delay = rand(0, 1.5);
+    c.style.animationDuration = dur + 's';
+    c.style.animationDelay = delay + 's';
+    // rotation start random
+    c.style.transform = 'rotate('+rand(0,360)+'deg)';
+    // alternate small horizontal sway using CSS variable with tiny animation via inline keyframes not possible — fine with rotate and drift
+    wrap.appendChild(c);
+  }
+
+  // پس از مدتی (مثلاً 9 ثانیه) کنفتی‌ها را پاک کن تا DOM سنگین نشود
+  setTimeout(()=> {
+    // fade out remaining confetti gently
+    wrap.style.transition = 'opacity 700ms ease';
+    wrap.style.opacity = '0';
+    setTimeout(()=> { wrap.innerHTML=''; wrap.style.opacity='1'; }, 800);
+  }, 9000);
+}
+
+/* ====== اجرای انیمیشن‌های ورود کارت‌ها (staggered) ====== */
+function showCardsStagger(){
+  const cards = Array.from(document.querySelectorAll('.card'));
+  cards.forEach((c,i) => {
+    setTimeout(()=> c.classList.add('show'), i * 140);
+  });
+}
+
+/* ====== پخش موسیقی با fallback کنترل ====== */
+function tryAutoPlayAudio(){
+  const audio = document.getElementById('bg-audio');
+  const toggle = document.getElementById('playerToggle');
+  const playBtn = document.getElementById('playBtn');
+  const muteBtn = document.getElementById('muteBtn');
+
+  audio.muted = true;
+  audio.play().then(()=> {
+    // شروع با mute مجاز شد، سپس تلاش برای unmute
+    setTimeout(()=> {
+      audio.muted = false;
+      // اگر مرورگر اجازه ندهد، promise reject می‌شود (بعدی catch)
+    }, 700);
+  }).catch(()=> {
+    toggle.style.display = 'flex';
+    toggle.setAttribute('aria-hidden','false');
+  });
+
+  audio.play().catch(()=> {
+    toggle.style.display = 'flex';
+    toggle.setAttribute('aria-hidden','false');
+  });
+
+  playBtn.addEventListener('click', ()=> {
+    if(audio.paused){
+      audio.play().catch(()=>{/* ignore */});
+      playBtn.textContent = 'توقف موسیقی';
+    } else {
+      audio.pause();
+      playBtn.textContent = 'پخش موسیقی';
+    }
+  });
+  muteBtn.addEventListener('click', ()=> {
+    audio.muted = !audio.muted;
+    muteBtn.textContent = audio.muted ? 'بی‌صدا' : 'روشن';
+  });
+
+  // کلیک کاربر برای unmute اگر قبلا mute بود
+  document.addEventListener('click', function onceUnmute(){
+    if(audio && audio.muted){
+      audio.muted = false;
+      muteBtn.textContent = 'روشن';
+      if(toggle.style.display !== 'none'){ toggle.style.display = 'none'; toggle.setAttribute('aria-hidden','true'); }
+    }
+    document.removeEventListener('click', onceUnmute);
+  }, {once:true});
+}
+
+/* ====== هنگام بارگذاری صفحه: پترن اجرا ====== */
+document.addEventListener('DOMContentLoaded', function(){
+  // 1) کارت‌ها را staggered نمایش بده
+  showCardsStagger();
+
+  // 2) پتاق (burst) را فوراً اجرا کن (نور + ذرات)
+  doBurst();
+
+  // 3) بعد از 180ms شروع کنفتی بریزد (تا پتاق دیده شود)
+  setTimeout(()=> { startConfetti(); }, 180);
+
+  // 4) موسیقی را سعی کن اتومات پخش کنی
+  tryAutoPlayAudio();
+});
+</script>
+
+</body>
+</html>
